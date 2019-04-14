@@ -1,20 +1,31 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div>
+    <h1>Current Path: {{path}}</h1>
+    <!-- <h3 (click)=getlist() >fetch</h3> -->
+    <h2>
+        <span>
+            <a  (click)="getList()">Fetch</a>
+        </span>
+    </h2>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div *ngIf="tree.length" class="folder-tree">
+ 
+  <ul class="list-group">
+      <ng-template #recursiveList let-tree>
+          <li *ngFor="let item of tree;let i=index;" class="list-group-item">
+              <div>
+                  <i class="arc-icon arc-icon-folder" [ngClass]="{selected:item.current}" (click)="toggleExpandFolder(item, i)"></i>
+                  <button (click)="openCurDir(item,selected)" class="btn btn-default">
+                      <!-- <a><i class="fas fa-file" style="padding-right: 10px"></i><label (click)="openCurDir(item,selected)">{{item.name}}</label></a> -->
+                      <a><i [ngClass]="item.type === 'Folder'? 'fa fa-folder' : 'fa fa-file'" style="padding-right: 10px"></i><label >{{item.name}}</label></a>
+                  </button>
+              </div>
+              <ul class="list-group">
+                  <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: item.children }"></ng-container>
+              </ul>
+          </li>
+      </ng-template>
+      <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: tree }"></ng-container>
+  </ul>
+</div>
 
