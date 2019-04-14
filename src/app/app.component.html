@@ -1,31 +1,38 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div>
-    <h1>Current Path: {{path}}</h1>
-    <!-- <h3 (click)=getlist() >fetch</h3> -->
-    <h2>
-        <span>
-            <a  (click)="getList()">Fetch</a>
-        </span>
-    </h2>
-</div>
-<div *ngIf="tree.length" class="folder-tree">
- 
-  <ul class="list-group">
-      <ng-template #recursiveList let-tree>
-          <li *ngFor="let item of tree;let i=index;" class="list-group-item">
-              <div>
-                  <i class="arc-icon arc-icon-folder" [ngClass]="{selected:item.current}" (click)="toggleExpandFolder(item, i)"></i>
-                  <button (click)="openCurDir(item,selected)" class="btn btn-default">
-                      <!-- <a><i class="fas fa-file" style="padding-right: 10px"></i><label (click)="openCurDir(item,selected)">{{item.name}}</label></a> -->
-                      <a><i [ngClass]="item.type === 'Folder'? 'fa fa-folder' : 'fa fa-file'" style="padding-right: 10px"></i><label >{{item.name}}</label></a>
-                  </button>
-              </div>
-              <ul class="list-group">
-                  <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: item.children }"></ng-container>
-              </ul>
-          </li>
-      </ng-template>
-      <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: tree }"></ng-container>
-  </ul>
-</div>
 
+<div class="container">
+    <div class="row">
+        <h1>Current Path: {{path}}</h1>
+        <!-- <h3 (click)=getlist() >fetch</h3> -->
+        <input type="text" id="path" placeholder="please enter a valid path." required [(ngModel)]="path" />
+        <button class="btn btn-default" style="margin-left: 10px" (click)="getList()">Fetch</button>
+    </div>
+    <div class="row">
+        <div *ngIf="tree.length" class="folder-tree">
+
+            <ul class="list-group">
+                <ng-template #recursiveList let-tree>
+                    <li *ngFor="let item of tree;let i=index;" class="list-group-item">
+                        <div>
+                            <i class="arc-icon arc-icon-folder" [ngClass]="{selected:item.current}"
+                                (click)="toggleExpandFolder(item, i)"></i>
+                            <button (click)="openCurDir(item,selected)" class="btn btn-default">
+                                <!-- <a><i class="fas fa-file" style="padding-right: 10px"></i><label (click)="openCurDir(item,selected)">{{item.name}}</label></a> -->
+                                <a><i [ngClass]="item.type === 'Folder'? 'fa fa-folder' : 'fa fa-file'"
+                                        style="padding-right: 10px"></i><label>{{item.name}}</label></a>
+                            </button>
+                        </div>
+                        <ul class="list-group">
+                            <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: item.children }">
+                            </ng-container>
+                        </ul>
+                    </li>
+                </ng-template>
+                <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: tree }"></ng-container>
+            </ul>
+        </div>
+    </div>
+</div>
+<div>
+
+</div>

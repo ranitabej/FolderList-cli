@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.tree = [];
-    this.path = "E:/personal-projects";
+    this.path = "";
     
 
   }
